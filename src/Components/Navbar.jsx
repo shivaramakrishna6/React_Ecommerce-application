@@ -40,7 +40,7 @@ function Navbar() {
                     <circle cx="10" cy="20" r="1.5" />
                     <circle cx="18" cy="20" r="1.5" />
                 </svg>
-                <span aria-hidden="true">{cartcount}</span>
+                <span aria-live="polite" aria-atomic="true">{cartcount}</span>
             </Link>
         </div>
     </nav>

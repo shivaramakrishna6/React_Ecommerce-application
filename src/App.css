@@ -215,6 +215,17 @@ select {
   box-shadow: 0 14px 28px rgba(249, 115, 22, 0.32);
 }
 
+.primary-btn.cart-added {
+  background: #15803d;
+  box-shadow: 0 10px 30px rgba(21, 128, 61, 0.25);
+}
+
+.primary-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .featured-section,
 .product-page,
 .cart-page,
@@ -368,6 +379,9 @@ select {
 }
 
 .add-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: 999px;
   padding: 0.7rem 1rem;
@@ -375,6 +389,11 @@ select {
   color: white;
   font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.add-cart-btn.added {
+  background: #15803d;
 }
 
 .promo-bamner {
@@ -637,6 +656,26 @@ select {
 .details-container p {
   color: var(--muted);
   line-height: 1.7;
+}
+
+.size-selector {
+  display: grid;
+  gap: 0.4rem;
+  width: min(100%, 16rem);
+  margin-top: 1rem;
+}
+
+.size-selector label {
+  font-weight: 700;
+}
+
+.size-selector select {
+  padding: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
 }
 
 .orders-card {

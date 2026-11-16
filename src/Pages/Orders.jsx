@@ -16,7 +16,9 @@ function Orders() {
                 <p>Date: {order.date}</p>
                 <p>Total: {formatINR(order.total)}</p>
                 {order.items.map((item)=>(
-                    <p key={item.id}>{item.title} x {item.quantity}</p>
+                    <p key={`${item.id}-${item.size || 'one-size'}`}>
+                        {item.title}{item.size ? ` (Size: ${item.size})` : ''} x {item.quantity}
+                    </p>
                 ))}
             </div>
         ))

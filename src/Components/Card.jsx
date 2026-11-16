@@ -8,7 +8,10 @@ import { formatINR } from '../formatCurrency'
 function Card({ product }) {
   const dispatch = useDispatch()
   const wishlist = useSelector((state) => state.wishlist.items)
+  const cartItems = useSelector((state) => state.cart.items)
   const iswishlisted = wishlist.some((item) => item.id === product.id)
+  const isClothing = product.category?.toLowerCase().includes('clothing')
+  const isInCart = cartItems.some((item) => item.id === product.id)
 
   return (
     <div className='product-card'>
@@ -35,9 +38,18 @@ function Card({ product }) {
         </div>
         <div className='product-bottom'>
           <h2>{formatINR(product.price)}</h2>
-          <button className='add-cart-btn' onClick={() => dispatch(addtoCart(product))}>
-            Add to cart
-          </button>
+          {isClothing ? (
+            <Link className='add-cart-btn' to={`/products/${product.id}`}>
+              Choose size
+            </Link>
+          ) : (
+            <button
+              className={`add-cart-btn ${isInCart ? 'added' : ''}`}
+              onClick={() => dispatch(addtoCart(product))}
+            >
+              {isInCart ? 'Added to cart' : 'Add to cart'}
+            </button>
+          )}
         </div>
       </div>
     </div>

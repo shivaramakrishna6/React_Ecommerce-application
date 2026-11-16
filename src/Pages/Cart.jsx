@@ -23,18 +23,22 @@ function Cart() {
         <div className='cart-layout'>
           <div className='cart-items'>
             {items.map((item) => (
-              <div className='cart-item' key={item.id}>
+              <div className='cart-item' key={`${item.id}-${item.size || 'one-size'}`}>
                 <img src={item.image} alt={item.title} />
                 <div className='cart-item-info'>
                   <h3>{item.title}</h3>
                   <p>{formatINR(item.price)}</p>
+                  {item.size && <p>Size: {item.size}</p>}
                   <div className='quantity'>
-                    <button onClick={() => dispatch(decreaseQuantity(item.id))}>-</button>
+                    <button onClick={() => dispatch(decreaseQuantity({ id: item.id, size: item.size }))}>-</button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => dispatch(increaseQuantity(item.id))}>+</button>
+                    <button onClick={() => dispatch(increaseQuantity({ id: item.id, size: item.size }))}>+</button>
                   </div>
                 </div>
-                <button className='remove-btn' onClick={() => dispatch(removeFromcart(item.id))}>
+                <button
+                  className='remove-btn'
+                  onClick={() => dispatch(removeFromcart({ id: item.id, size: item.size }))}
+                >
                   Remove
                 </button>
               </div>
