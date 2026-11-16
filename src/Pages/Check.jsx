@@ -9,20 +9,33 @@ function Check() {
   const navigate = useNavigate()
   const items = useSelector((state) => state.cart.items)
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const [form, setform] = useState({
+  const [step, setStep] = useState('registration')
+  const [registration, setRegistration] = useState({
     name: '',
     email: '',
+    password: ''
+  })
+  const [delivery, setDelivery] = useState({
     phone: '',
     address: '',
     city: '',
     pincode: ''
   })
 
-  function handlechange(e) {
-    setform({ ...form, [e.target.name]: e.target.value })
+  function handleRegistrationChange(e) {
+    setRegistration({ ...registration, [e.target.name]: e.target.value })
   }
 
-  function handlesubmit(e) {
+  function handleDeliveryChange(e) {
+    setDelivery({ ...delivery, [e.target.name]: e.target.value })
+  }
+
+  function handleRegistrationSubmit(e) {
+    e.preventDefault()
+    setStep('delivery')
+  }
+
+  function handleDeliverySubmit(e) {
     e.preventDefault()
 
     if (!items.length) {
@@ -32,7 +45,11 @@ function Check() {
 
     const order = {
       id: Date.now(),
-      customer: form,
+      customer: {
+        name: registration.name,
+        email: registration.email,
+        ...delivery
+      },
       items,
       total,
       date: new Date().toLocaleDateString()
@@ -57,22 +74,82 @@ function Check() {
   return (
     <div className='checkout-page'>
       <h1>Order Now</h1>
-      <form className='checkout-form' onSubmit={handlesubmit}>
-        <h2>Delivery information</h2>
-        {Object.keys(form).map((key) => (
+      {step === 'registration' ? (
+        <form className='checkout-form' onSubmit={handleRegistrationSubmit}>
+          <h2>Register to continue</h2>
           <input
             type='text'
-            key={key}
-            name={key}
-            value={form[key]}
-            onChange={handlechange}
-            placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+            name='name'
+            value={registration.name}
+            onChange={handleRegistrationChange}
+            placeholder='Full name'
+            autoComplete='name'
             required
           />
-        ))}
-        <h3>Order Total: {formatINR(total)}</h3>
-        <button type='submit'>Place Order</button>
-      </form>
+          <input
+            type='email'
+            name='email'
+            value={registration.email}
+            onChange={handleRegistrationChange}
+            placeholder='Email'
+            autoComplete='email'
+            required
+          />
+          <input
+            type='password'
+            name='password'
+            value={registration.password}
+            onChange={handleRegistrationChange}
+            placeholder='Password'
+            autoComplete='new-password'
+            minLength={8}
+            required
+          />
+          <button type='submit'>Register and continue</button>
+        </form>
+      ) : (
+        <form className='checkout-form' onSubmit={handleDeliverySubmit}>
+          <h2>Delivery information</h2>
+          <input
+            type='tel'
+            name='phone'
+            value={delivery.phone}
+            onChange={handleDeliveryChange}
+            placeholder='Phone'
+            autoComplete='tel'
+            required
+          />
+          <input
+            type='text'
+            name='address'
+            value={delivery.address}
+            onChange={handleDeliveryChange}
+            placeholder='Address'
+            autoComplete='street-address'
+            required
+          />
+          <input
+            type='text'
+            name='city'
+            value={delivery.city}
+            onChange={handleDeliveryChange}
+            placeholder='City'
+            autoComplete='address-level2'
+            required
+          />
+          <input
+            type='text'
+            name='pincode'
+            value={delivery.pincode}
+            onChange={handleDeliveryChange}
+            placeholder='Pincode'
+            autoComplete='postal-code'
+            required
+          />
+          <h3>Order Total: {formatINR(total)}</h3>
+          <button type='submit'>Place Order</button>
+        </form>
+      )}
     </div>
   )
 }
