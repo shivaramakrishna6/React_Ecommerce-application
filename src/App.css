@@ -364,6 +364,26 @@ select {
   color: #f59e0b;
 }
 
+.card-size-selector {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.card-size-selector label {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.card-size-selector select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
 .product-bottom {
   display: flex;
   align-items: center;
@@ -394,6 +414,11 @@ select {
 
 .add-cart-btn.added {
   background: #15803d;
+}
+
+.add-cart-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .promo-bamner {
